@@ -66,9 +66,9 @@ public class HilbertCurve {
     return new Coordinate(x, y);
   }
 
-  public short[] encode(short[][] twoD) {
+  public int[] encode(int[][] twoD) {
     this.N = twoD.length * twoD[0].length;
-    short[] oneD = new short[this.N];
+    int[] oneD = new int[this.N];
     for (int i = 0; i < this.N; i++) {
       Coordinate p = getHilbert(i);
       oneD[i] = twoD[p.x][p.y];
@@ -76,10 +76,10 @@ public class HilbertCurve {
     return oneD;
   }
 
-  public short[][] decode(short[] oneD) {
+  public int[][] decode(int[] oneD) {
     this.N = oneD.length;
     int sqrtN = (int) Math.sqrt(this.N);
-    short[][] twoD = new short[sqrtN][sqrtN];
+    int[][] twoD = new int[sqrtN][sqrtN];
     for (int i = 0; i < this.N; i++) {
       Coordinate p = getHilbert(i);
       twoD[p.x][p.y] = oneD[i];
@@ -88,14 +88,14 @@ public class HilbertCurve {
   }
 
   public static void main(String[] args) {
-    short[][] twoD = {{0, 1, 2, 3}, {4, 5, 6, 7}, {8, 9, 10, 11}, {12, 13, 14, 15}};
+    int[][] twoD = {{0, 1, 2, 3}, {4, 5, 6, 7}, {8, 9, 10, 11}, {12, 13, 14, 15}};
     HilbertCurve hilbertCurve = new HilbertCurve();
-    short[] oneD = hilbertCurve.encode(twoD);
+    int[] oneD = hilbertCurve.encode(twoD);
 
     Print.print2DArray("2D array: ", twoD);
     Print.print1DArray("Linearize with Hilbert curve: ", oneD);
 
-    short[][] twoDResult = hilbertCurve.decode(oneD);
+    int[][] twoDResult = hilbertCurve.decode(oneD);
 
     Print.print2DArray("2D array: ", twoDResult);
   }

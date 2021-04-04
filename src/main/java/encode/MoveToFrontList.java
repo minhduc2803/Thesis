@@ -5,20 +5,20 @@ import utils.Print;
 public class MoveToFrontList {
   public Node mutableHeadList;
   public Node headList;
-  public short[] universeData;
+  public int[] universeData;
 
-  public MoveToFrontList(short[] universeData) {
+  public MoveToFrontList(int[] universeData) {
     this.universeData = universeData;
   }
 
   public MoveToFrontList() {
-    short[] data = new short[256];
+    int[] data = new int[256];
     for (int i = 0; i < 256; i++)
-      data[i] = (short) i;
+      data[i] = (int) i;
     this.universeData = data;
   }
 
-  public void setUniverseData(short[] data) {
+  public void setUniverseData(int[] data) {
     this.universeData = data;
   }
 
@@ -30,15 +30,15 @@ public class MoveToFrontList {
       tail.next = p;
       tail = p;
     }
-    Print.printList("List", head);
+//    Print.printList("List", head);
     this.headList = head;
   }
 
-  private short findPosition(short value) {
+  private int findPosition(int value) {
     if (headList.value == value) {
       return 0;
     }
-    short position = 1;
+    int position = 1;
     Node pre = headList;
     Node p = headList.next;
 
@@ -53,7 +53,7 @@ public class MoveToFrontList {
     return position;
   }
 
-  private short findValue(short position) {
+  private int findValue(int position) {
     if (position == 0) {
       return headList.value;
     }
@@ -69,24 +69,25 @@ public class MoveToFrontList {
     return p.value;
   }
 
-  public short[] encode(short[] origin) {
+  public int[] encode(int[] origin) {
     createList();
-    short[] encodeData = new short[origin.length];
-
+    int[] encodeData = new int[origin.length];
+    System.out.println("origin length: " + origin.length);
     for (int i = 0; i < origin.length; i++) {
-      encodeData[i] = findPosition(origin[i]);
+      int d = findPosition(origin[i]);
+      encodeData[i] = d;
     }
-    Print.printList("List after encode", this.headList);
+//    Print.printList("List after encode", this.headList);
     return encodeData;
   }
 
-  public short[] decode(short[] encodeData) {
+  public int[] decode(int[] encodeData) {
     createList();
-    short[] decodeData = new short[encodeData.length];
+    int[] decodeData = new int[encodeData.length];
     for (int i = 0; i < encodeData.length; i++) {
       decodeData[i] = findValue(encodeData[i]);
     }
-    Print.printList("List after decode", this.headList);
+//    Print.printList("List after decode", this.headList);
     return decodeData;
   }
 }

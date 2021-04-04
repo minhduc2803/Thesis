@@ -1,7 +1,7 @@
 package utils;
 
 public class Logic {
-  public static boolean compare2D(short[][] origin, short[][] component) {
+  public static boolean compare2D(int[][] origin, int[][] component) {
     int m = origin.length;
     int n = origin[0].length;
     if (m != component.length || n != component[0].length)
@@ -16,7 +16,7 @@ public class Logic {
     return true;
   }
 
-  public static boolean compare1D(short[] origin, short[] component) {
+  public static boolean compare1D(int[] origin, int[] component) {
     if (origin.length != component.length)
       return false;
     for (int i = 0; i < origin.length; i++) {

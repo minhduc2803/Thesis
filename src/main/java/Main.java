@@ -4,32 +4,66 @@ import linearize.HilbertCurve;
 import utils.Logic;
 import utils.Print;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+
 public class Main {
   public static void main(String[] args) {
-    short[][] twoD = {{1, 2, 3, 4}, {1, 2, 6, 7}, {2, 1, 8, 10}, {1, 12, 13, 14}};
-    Print.print2DArray("Origin data", twoD);
+    String tifImagePath = "./images/01.tif";
+    String pngImagePath = "./images/01.png";
+    File inputFile = new File(tifImagePath);
+    File outputFile = new File(pngImagePath);
+    try {
+      BufferedImage image = ImageIO.read(inputFile);
+      ImageIO.write(image, "png", outputFile);
+      int width = image.getWidth();
+      int height = image.getHeight();
+      System.out.println("width: " + width + ", height: " + height);
+      int[][] intData = new int[1024][1024];
+      int[][] data = new int[1024][1024];
 
-    HilbertCurve hilbertCurve = new HilbertCurve();
-    MoveToFrontList moveToFrontList = new MoveToFrontList();
+      for (int i = 0; i < width; i++)
+        for (int j = 0; j < height; j++)
+          data[i][j] = image.getRGB(i, j) & 255;
 
-    short[] oneD = hilbertCurve.encode(twoD);
-    Print.print1DArray("1D array: ", oneD);
+//    for (String format : ImageIO.getWriterFormatNames()) {
+//      System.out.println("format = " + format);
+//    }
 
-    short[] encodeData = moveToFrontList.encode(oneD);
-    Print.print1DArray("encode data: ", oneD);
+      int[][] twoD = {{1, 2, 3, 4}, {1, 2, 6, 7}, {2, 1, 8, 10}, {1, 12, 13, 14}};
+//    Print.print2DArray("Origin data", twoD);
 
-    String compressData = Huffman.encode(encodeData);
-    System.out.println("compressed data: " + compressData);
+      HilbertCurve hilbertCurve = new HilbertCurve();
+      MoveToFrontList moveToFrontList = new MoveToFrontList();
 
-    Huffman.Node rootTree = Huffman.buildTree(encodeData);
-    short[] depressData = Huffman.decode(compressData, rootTree);
-    Print.print1DArray("depressed data: ", depressData);
+      System.out.println("Hilbert encode...");
+      int[] oneD = hilbertCurve.encode(data);
+//    Print.print1DArray("1D array: ", oneD);
+      System.out.println("Move to front list encode...");
+      int[] encodeData = moveToFrontList.encode(oneD);
+//    Print.print1DArray("encode data: ", oneD);
+      System.out.println("Huffman encode...");
+      String compressData = Huffman.encode(encodeData);
+//    System.out.println("compressed data: " + compressData);
+      System.out.println("Huffman decode...");
+      Huffman.Node rootTree = Huffman.buildTree(encodeData);
+      int[] depressData = Huffman.decode(compressData, rootTree);
+//    Print.print1DArray("depressed data: ", depressData);
+      System.out.println("Move to front list decode...");
+      int[] decodeData = moveToFrontList.decode(depressData);
+//    Print.print1DArray("decode data: ", oneD);
+      System.out.println("Hilbert decode...");
+      int[][] component = hilbertCurve.decode(decodeData);
 
-    short[] decodeData = moveToFrontList.decode(depressData);
-    Print.print1DArray("decode data: ", oneD);
-    short[][] component = hilbertCurve.decode(decodeData);
+//    Print.print2DArray("Component data", component);
+      System.out.println(Logic.compare2D(data, component));
 
-    Print.print2DArray("Component data", component);
-    System.out.println(Logic.compare2D(twoD, component));
+      System.out.println("Working Directory = " + System.getProperty("user.dir"));
+
+    } catch (Exception e) {
+      System.out.println(e);
+      System.out.println(e.getMessage());
+    }
   }
 }

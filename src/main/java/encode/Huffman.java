@@ -8,11 +8,11 @@ import java.util.*;
 public class Huffman {
 
   public static class Node implements Comparable {
-    public short value;
+    public int value;
     public int frequent;
     public Node left, right;
 
-    public Node(short value, int frequent) {
+    public Node(int value, int frequent) {
       this.value = value;
       this.frequent = frequent;
       this.left = null;
@@ -31,11 +31,11 @@ public class Huffman {
     }
   }
 
-  private static Hashtable<Short, Node> getFrequent(short[] data) {
-    Hashtable<Short, Node> frequentSet = new Hashtable<Short, Node>();
+  private static Hashtable<Integer, Node> getFrequent(int[] data) {
+    Hashtable<Integer, Node> frequentSet = new Hashtable<Integer, Node>();
     Node p;
     for (int i = 0; i < data.length; i++) {
-      Short key = new Short(data[i]);
+      int key = data[i];
       if (frequentSet.containsKey(key)) {
         p = frequentSet.get(key);
         p.frequent += 1;
@@ -47,7 +47,7 @@ public class Huffman {
     return frequentSet;
   }
 
-  private static Hashtable<Short, String> getEncodeSet(Node rootTree, String encodeString, Hashtable<Short, String> encodeSet) {
+  private static Hashtable<Integer, String> getEncodeSet(Node rootTree, String encodeString, Hashtable<Integer, String> encodeSet) {
     if (rootTree.left == null) {
       encodeSet.put(rootTree.value, encodeString);
     } else {
@@ -57,9 +57,9 @@ public class Huffman {
     return encodeSet;
   }
 
-  public static Node buildTree(short[] data) {
+  public static Node buildTree(int[] data) {
     // frequentSet store an set of data: Node { frequent }
-    Hashtable<Short, Node> frequentSet = getFrequent(data);
+    Hashtable<Integer, Node> frequentSet = getFrequent(data);
     PriorityQueue<Node> tree = new PriorityQueue<Node>();
 
     // add frequentSet to huffman tree
@@ -82,27 +82,30 @@ public class Huffman {
     return tree.poll();
   }
 
-  public static String encode(short[] data) {
+  public static String encode(int[] data) {
 
     Node rootTree = buildTree(data);
 
-    Hashtable<Short, String> encodeSet = new Hashtable<Short, String>();
+    Hashtable<Integer, String> encodeSet = new Hashtable<Integer, String>();
     encodeSet = getEncodeSet(rootTree, "", encodeSet);
 
     encodeSet.forEach((key, value) -> {
-      System.out.println(key + ": " + value);
+//      System.out.println(key + ": " + value);
     });
 
     // create encode data by loop through all element in data, transform every element to its encode set
-    String encodeData = "";
+    StringBuilder encodeData = new StringBuilder();
+    long start = System.nanoTime();
     for (int i = 0; i < data.length; i++) {
-      encodeData += encodeSet.get(data[i]);
+      encodeData.append(encodeSet.get(data[i]));
     }
-    return encodeData;
+    System.out.println("Encode string length: " + encodeData.length());
+    System.out.println("Time execute encode data into string: " + (System.nanoTime() - start));
+    return encodeData.toString();
   }
 
-  public static short[] decode(String encodeData, Node rootTree) {
-    ArrayList<Short> decodeData = new ArrayList<Short>();
+  public static int[] decode(String encodeData, Node rootTree) {
+    ArrayList<Integer> decodeData = new ArrayList<Integer>();
     Node p = rootTree;
     for (int i = 0; i < encodeData.length(); i++) {
       p = encodeData.charAt(i) == '0' ? p.left : p.right;
@@ -111,7 +114,7 @@ public class Huffman {
         p = rootTree;
       }
     }
-    short[] data = new short[decodeData.size()];
+    int[] data = new int[decodeData.size()];
     for (int i = 0; i < decodeData.size(); i++) {
       data[i] = decodeData.get(i);
     }
@@ -119,15 +122,17 @@ public class Huffman {
   }
 
   public static void main(String[] argv) {
-    short[] data = {1, 2, 1, 3, 5, 1, 2, 7, 5, 2, 1};
+    int[] data = {1, 2, 1, 3, 5, 1, 2, 7, 5, 2, 1};
     Print.print1DArray("origin data: ", data);
     String encodeData = Huffman.encode(data);
     System.out.println("encode: ");
     System.out.println(encodeData);
 
     Node rootTree = Huffman.buildTree(data);
-    short[] decodeData = Huffman.decode(encodeData, rootTree);
+    int[] decodeData = Huffman.decode(encodeData, rootTree);
     Print.print1DArray("decode data: ", decodeData);
     System.out.println(Logic.compare1D(data, decodeData));
+
+
   }
 }

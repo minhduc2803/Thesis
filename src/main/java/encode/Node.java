@@ -1,10 +1,10 @@
 package encode;
 
 public class Node {
-  public short value;
+  public int value;
   public Node next;
 
-  public Node(short value) {
+  public Node(int value) {
     this.value = value;
     this.next = null;
   }

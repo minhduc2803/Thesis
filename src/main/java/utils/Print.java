@@ -1,6 +1,6 @@
 package utils;
 
-import encode.Node;
+import algorithm.MoveToFrontList;
 
 public class Print {
   public static void print1DArray(String s, int[] str) {
@@ -27,9 +27,9 @@ public class Print {
 
   }
 
-  public static void printList(String s, Node head) {
+  public static void printList(String s, MoveToFrontList.Node head) {
     System.out.println(s);
-    for (Node p = head; p != null; p = p.next) {
+    for (MoveToFrontList.Node p = head; p != null; p = p.next) {
       System.out.print(p.value);
       System.out.print(" ");
     }

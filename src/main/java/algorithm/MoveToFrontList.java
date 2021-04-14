@@ -1,6 +1,4 @@
-package encode;
-
-import utils.Print;
+package algorithm;
 
 public class MoveToFrontList {
   public Node mutableHeadList;
@@ -89,5 +87,19 @@ public class MoveToFrontList {
     }
 //    Print.printList("List after decode", this.headList);
     return decodeData;
+  }
+
+  public static class Node {
+    public int value;
+    public Node next;
+
+    public Node(int value) {
+      this.value = value;
+      this.next = null;
+    }
+
+    public Node() {
+      this.next = null;
+    }
   }
 }

@@ -5,7 +5,7 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Stack;
 
-public class CompressData {
+public class CompressSystem {
   public Huffman.Node tree;
   public int[] label;
   public String data;
@@ -22,13 +22,13 @@ public class CompressData {
 
   public byte oneByte;
 
-  public CompressData(Huffman.Node tree, int[] label, String data) {
+  public CompressSystem(Huffman.Node tree, int[] label, String data) {
     this.tree = tree;
     this.data = data;
     this.label = label;
   }
 
-  public CompressData() {
+  public CompressSystem() {
 
   }
 
@@ -163,7 +163,7 @@ public class CompressData {
       // the next byte is the final byte offset
       this.firstDataPosition = this.label.length + 1 + treeLength;
       int offset = this.array[firstDataPosition];
-      System.out.println("Offset" + offset);
+      System.out.println("Offset " + offset);
       this.firstDataPosition++;
 
       ArrayList<Integer> decodeArray = new ArrayList<>();
@@ -200,7 +200,7 @@ public class CompressData {
       BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(fileOutputStream);
       byte test = (byte) 249;
       bufferedOutputStream.write(3);
-      CompressData.testWrite(bufferedOutputStream);
+      CompressSystem.testWrite(bufferedOutputStream);
       bufferedOutputStream.close();
 
       File file = new File("./images/01.hil");

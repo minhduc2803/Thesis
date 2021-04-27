@@ -1,6 +1,8 @@
 package utils;
 
+import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import java.io.File;
 
 public class Logic {
   public static boolean compare2D(int[][] origin, int[][] component) {
@@ -44,4 +46,23 @@ public class Logic {
     return true;
   }
 
+  public static boolean compareImgFile(String fileNameA, String fileNameB) {
+    File fileA = new File(fileNameA);
+    File fileB = new File(fileNameB);
+    try {
+      BufferedImage imgA = ImageIO.read(fileA);
+      BufferedImage imgB = ImageIO.read(fileB);
+
+      return compareImg(imgA, imgB);
+    } catch (Exception e) {
+      System.out.println("Error occurred in Logic -> compare two image files");
+      System.out.println(e.getMessage());
+      return false;
+    }
+  }
+
+  public static long getFileSize(String filePath) {
+    File file = new File(filePath);
+    return file.length();
+  }
 }

@@ -115,18 +115,17 @@ public class Huffman {
     Hashtable<Integer, String> encodeSet = new Hashtable<Integer, String>();
     encodeSet = getEncodeSet(this.tree, "", encodeSet);
 
-    encodeSet.forEach((key, value) -> {
-      System.out.println(key + ": " + value);
-    });
+//    encodeSet.forEach((key, value) -> {
+//      System.out.println(key + ": " + value);
+//    });
 
     // create encode data by loop through all element in data, transform every element to its encode set
     StringBuilder encodeData = new StringBuilder();
-    long start = System.nanoTime();
+
     for (int i = 0; i < data.length; i++) {
       encodeData.append(encodeSet.get(data[i]));
     }
     System.out.println("Encode string length: " + encodeData.length());
-    System.out.println("Time execute encode data into string: " + (System.nanoTime() - start));
     return encodeData.toString();
   }
 
@@ -159,24 +158,24 @@ public class Huffman {
   public static void main(String[] argv) {
     Huffman huffman = new Huffman();
     int[] data = {1, 2, 1, 3, 5, 7, 1};
-    Print.print1DArray("origin data: ", data);
+//    Print.<int>print1DArray("origin data: ", data);
     String encodeData = huffman.encode(data);
     System.out.println("encode: ");
     System.out.println(encodeData);
 
-    Print.print1DArray("labels: ", huffman.label);
-    CompressData compressData = new CompressData(huffman.tree, huffman.label, encodeData);
+//    Print.print1DArray("labels: ", huffman.label);
+    CompressSystem compressSystem = new CompressSystem(huffman.tree, huffman.label, encodeData);
 
-    compressData.save("./images/01.hil");
+    compressSystem.save("./images/01.hil");
 
-    huffman.travel(compressData.tree);
+    huffman.travel(compressSystem.tree);
 
-    compressData.load("./images/01.hil");
+    compressSystem.load("./images/01.hil");
 
-    huffman.travel(compressData.huffmanTree);
+    huffman.travel(compressSystem.huffmanTree);
 
-    int[] decodeData = huffman.decode(encodeData, compressData.huffmanTree);
-    Print.print1DArray("decode data: ", decodeData);
+    int[] decodeData = huffman.decode(encodeData, compressSystem.huffmanTree);
+//    Print.print1DArray("decode data: ", decodeData);
     System.out.println(Logic.compare1D(data, decodeData));
 
 

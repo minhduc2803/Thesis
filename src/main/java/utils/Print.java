@@ -12,6 +12,15 @@ public class Print {
     System.out.println();
   }
 
+  public static void print1DArray(String s, Integer[] str) {
+    System.out.println(s);
+    for (int i = 0; i < str.length; i++) {
+      System.out.print(str[i]);
+      System.out.print(' ');
+    }
+    System.out.println();
+  }
+
   public static void print2DArray(String s, int[][] str) {
     System.out.println(s);
     int m = str.length;

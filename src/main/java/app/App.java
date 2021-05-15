@@ -3,6 +3,7 @@ package app;
 import algorithm.CompressSystem;
 import algorithm.Huffman;
 import algorithm.MoveToFrontList;
+import algorithm.RunLength;
 import linearize.HilbertCurve;
 import utils.Logic;
 
@@ -13,6 +14,7 @@ import java.io.File;
 public class App {
   public HilbertCurve hilbertCurve;
   public MoveToFrontList moveToFrontList;
+  public RunLength runLength;
   public Huffman huffman;
 
   int redLimit = 1024 * 1024;
@@ -24,6 +26,7 @@ public class App {
   public App() {
     hilbertCurve = new HilbertCurve();
     moveToFrontList = new MoveToFrontList();
+    runLength = new RunLength();
     huffman = new Huffman();
   }
   public void compress(String originFileName, String compressedFileName) {
@@ -67,10 +70,17 @@ public class App {
       }
 //    Print.print1DArray("1D array: ", oneD);
       System.out.println("Move to front list encode...");
-      int[] encodeData = moveToFrontList.encode(oneD);
-//    Print.print1DArray("encode data: ", oneD);
+      int[] moveToFrontEncodeData = moveToFrontList.encode(oneD);
+      System.out.println("Move to front list encode length: "+ moveToFrontEncodeData.length);
+//    Print.print1DArray("encode data: ", moveToFrontEncodeData);
+
+      System.out.println("Run length encode...");
+      int[] runLengthEncodeData = runLength.encode(moveToFrontEncodeData);
+      System.out.println("Run length encode length: "+ runLengthEncodeData.length);
+
       System.out.println("Huffman encode...");
-      String compressData = huffman.encode(encodeData);
+      String compressData = huffman.encode(runLengthEncodeData);
+
 //    System.out.println("compressed data: " + compressData);
 
       CompressSystem compressSystem = new CompressSystem(huffman.tree, huffman.label, compressData);
@@ -88,14 +98,21 @@ public class App {
     compressSystem.load(compressedFileName);
 
     String afterCompressData = compressSystem.data;
+    System.out.println("Huffman string length: "+ afterCompressData.length());
     Huffman.Node huffmanTree = compressSystem.huffmanTree;
 
     System.out.println("Huffman decode...");
 //      Huffman.Node rootTree = Huffman.buildTree(encodeData);
-    int[] depressData = huffman.decode(afterCompressData, huffmanTree);
+    int[] huffmanDecodeData = huffman.decode(afterCompressData, huffmanTree);
+    System.out.println("Huffman decode length: "+ huffmanDecodeData.length);
 //    Print.print1DArray("depressed data: ", depressData);
+
+    System.out.println("Run length decode...");
+    int[] runLengthDecodeData = runLength.decode(huffmanDecodeData);
+    System.out.println("Run length decode length: "+ runLengthDecodeData.length);
     System.out.println("Move to front list decode...");
-    int[] decodeData = moveToFrontList.decode(depressData);
+    int[] decodeData = moveToFrontList.decode(runLengthDecodeData);
+    System.out.println("Move to front list decode length: "+ decodeData.length);
 //    Print.print1DArray("decode data: ", oneD);
 
     int[] decodeRed = new int[1024 * 1024];
@@ -107,6 +124,7 @@ public class App {
     for (int i = redLimit; i < greenLimit; i++) {
       decodeGreen[i - redLimit] = decodeData[i];
     }
+
     for (int i = greenLimit; i < blueLimit; i++) {
       decodeBlue[i - greenLimit] = decodeData[i];
     }

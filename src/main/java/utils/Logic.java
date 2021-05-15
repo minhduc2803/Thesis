@@ -65,4 +65,12 @@ public class Logic {
     File file = new File(filePath);
     return file.length();
   }
+
+  public static int[] copyArray1D(int[] origin) {
+    int[] copyArray = new int[origin.length];
+    for(int i=0;i<origin.length;i++) {
+      copyArray[i] = origin[i];
+    }
+    return copyArray;
+  }
 }

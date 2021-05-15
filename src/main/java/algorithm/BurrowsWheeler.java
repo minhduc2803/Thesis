@@ -21,21 +21,42 @@ public class BurrowsWheeler {
   }
 
   public int[] encode(int[] origin) {
-    int[] encodeResult = new int[origin.length];
-    Integer[] index = new Integer[origin.length];
 
-    for (int i = 0; i < origin.length; i++) {
-      index[i] = i;
+    // call recursion
+
+    // name triples
+
+    int n = origin.length;
+    int padding = 3 - (n - 1) % 3;
+    int[] T = new int[n + padding];
+    for (int i = 0; i < n; i++) {
+      T[i] = origin[i];
+    }
+    for (int i = n; i < n + padding; i++) {
+      T[i] = -1;
     }
 
-    ArrayIndexComparator arrayIndexComparator = new ArrayIndexComparator(origin);
-    Arrays.sort(index, arrayIndexComparator);
+    // sort triples
 
-    for(int i = 0;i<index.length;i++) {
-      encodeResult[i] = index[i] - 1 < 0 ? 256 : origin[index[i] - 1];
+    int[] A12 = new int[2 * (n + padding) / 3 - 1];
+
+    // radix sort
+
+    int endA1 = 1;
+    for (int i = 0; i * 3 + 1 < n + padding; i++) {
+      A12[i] = i * 3 + 1;
+      endA1 = i;
     }
-    Print.print1DArray("Index array", index);
-    return encodeResult;
+    endA1++;
+    for (int i = 0; i * 3 + 2 < n + padding; i++) {
+      A12[i + endA1] = i * 3 + 2;
+    }
+    Print.print1DArray("suffix triple A12", A12);
+    // suffix on S0
+
+    // merge S0 and S12
+
+    return origin;
   }
 
   public int[] decode(int[] encodeArray) {

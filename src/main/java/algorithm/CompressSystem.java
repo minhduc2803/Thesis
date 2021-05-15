@@ -163,10 +163,10 @@ public class CompressSystem {
       // the next byte is the final byte offset
       this.firstDataPosition = this.label.length + 1 + treeLength;
       int offset = this.array[firstDataPosition];
+      if(offset == 0) offset = 8;
       System.out.println("Offset " + offset);
       this.firstDataPosition++;
 
-      ArrayList<Integer> decodeArray = new ArrayList<>();
       this.currentDecodeDataPosition = this.firstDataPosition * 8;
       this.finalDecodeDataPosition = this.array.length * 8 - 8 + offset;
 

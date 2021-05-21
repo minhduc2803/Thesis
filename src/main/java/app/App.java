@@ -4,6 +4,7 @@ import algorithm.CompressSystem;
 import algorithm.Huffman;
 import algorithm.MoveToFrontList;
 import algorithm.RunLength;
+import linearize.Curve;
 import linearize.HilbertCurve;
 import utils.Logic;
 
@@ -12,7 +13,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 
 public class App {
-  public HilbertCurve hilbertCurve;
+  public Curve curve;
   public MoveToFrontList moveToFrontList;
   public RunLength runLength;
   public Huffman huffman;
@@ -23,8 +24,8 @@ public class App {
 
   int width, height;
 
-  public App() {
-    hilbertCurve = new HilbertCurve();
+  public App(Curve curve) {
+    this.curve = curve;
     moveToFrontList = new MoveToFrontList();
     runLength = new RunLength();
     huffman = new Huffman();
@@ -52,9 +53,9 @@ public class App {
         }
 
       System.out.println("Hilbert encode...");
-      int[] oneDRed = hilbertCurve.encode(dataRed);
-      int[] oneDGreen = hilbertCurve.encode(dataGreen);
-      int[] oneDBlue = hilbertCurve.encode(dataBlue);
+      int[] oneDRed = curve.encode(dataRed);
+      int[] oneDGreen = curve.encode(dataGreen);
+      int[] oneDBlue = curve.encode(dataBlue);
       int[] oneD = new int[1024 * 1024 * 3];
       int redLimit = 1024 * 1024;
       int greenLimit = redLimit * 2;
@@ -130,9 +131,9 @@ public class App {
     }
 
     System.out.println("Hilbert decode...");
-    int[][] componentRed = hilbertCurve.decode(decodeRed);
-    int[][] componentGreen = hilbertCurve.decode(decodeGreen);
-    int[][] componentBlue = hilbertCurve.decode(decodeBlue);
+    int[][] componentRed = curve.decode(decodeRed);
+    int[][] componentGreen = curve.decode(decodeGreen);
+    int[][] componentBlue = curve.decode(decodeBlue);
 
     BufferedImage saveImg = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
     for (int i = 0; i < width; i++) {
@@ -152,7 +153,7 @@ public class App {
   }
 
   public static void main(String[] args) {
-    App app = new App();
+    App app = new App(new HilbertCurve());
     app.compress("./images/02.tif", "./images/02.hil");
     app.extract("./images/02.hil", "./images/02.ex");
 

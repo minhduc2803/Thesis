@@ -1,11 +1,14 @@
 import app.App;
+import linearize.Curve;
+import linearize.HilbertCurve;
+import linearize.ZCurve;
 import utils.Logic;
 
 public class Main {
-  public static void getAverageRatio() {
+  public static double getAverageRatio(Curve curve) {
     double totalRatio = 0;
     for (int i = 1; i <= 24; i++) {
-      App app = new App();
+      App app = new App(curve);
       String name = String.valueOf(i);
       if (i < 10) {
         name = "0" + name;
@@ -27,10 +30,11 @@ public class Main {
       totalRatio += (double) compressedFileSize / imgFileSize;
     }
     System.out.println("Average compressed ratio: " + totalRatio / 24);
+    return totalRatio / 24;
   }
 
   public static void testOneImage(String name) {
-    App app = new App();
+    App app = new App(new HilbertCurve());
     System.out.println("Image Number: " + name);
     String imgFile = "./images/" + name + ".tif";
     String compressedFile = "./images/" + name + ".hil";
@@ -48,7 +52,11 @@ public class Main {
   }
   public static void main(String[] args) {
 //      testOneImage("15");
-    getAverageRatio();
+    double hilbertRatio =  getAverageRatio(new HilbertCurve());
+    double zCurveRatio =  getAverageRatio(new ZCurve());
+
+    System.out.println(hilbertRatio);
+    System.out.println(zCurveRatio);
   }
 
 

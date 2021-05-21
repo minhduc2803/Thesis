@@ -2,7 +2,7 @@ package linearize;
 
 import utils.Print;
 
-public class HilbertCurve {
+public class HilbertCurve implements Curve {
   private class Coordinate {
     public int x;
     public int y;

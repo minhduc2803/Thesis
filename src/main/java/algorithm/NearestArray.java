@@ -1,6 +1,5 @@
 package algorithm;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -42,7 +41,7 @@ public class NearestArray {
         below--;
       }
 
-      return above < 256 && above - value <= value - below ? array[above].remove() : array[below].remove();
+      return above < 256 && (above - value <= value - below || below < 0) ? array[above].remove() : array[below].remove();
     } else {
       return array[value].remove();
     }

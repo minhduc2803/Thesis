@@ -1,6 +1,6 @@
 package utils;
 
-import algorithm.MoveToFrontList;
+import compress.MoveToFrontList;
 
 public class Print {
   public static void print1DArray(String s, int[] str) {

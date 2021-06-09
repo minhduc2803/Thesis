@@ -1,8 +1,7 @@
-package algorithm;
+package compress;
 
 import java.io.*;
 import java.nio.file.Files;
-import java.util.ArrayList;
 import java.util.Stack;
 
 public class CompressSystem {

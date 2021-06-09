@@ -1,4 +1,4 @@
-package algorithm;
+package compress;
 
 public class MoveToFrontList {
   public Node mutableHeadList;

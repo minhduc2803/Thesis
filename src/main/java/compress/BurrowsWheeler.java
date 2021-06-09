@@ -1,9 +1,7 @@
-package algorithm;
+package compress;
 
-import utils.Logic;
 import utils.Print;
 
-import java.util.Arrays;
 import java.util.Comparator;
 
 public class BurrowsWheeler {

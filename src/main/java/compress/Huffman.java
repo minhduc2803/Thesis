@@ -1,7 +1,6 @@
-package algorithm;
+package compress;
 
 import utils.Logic;
-import utils.Print;
 
 import java.util.*;
 

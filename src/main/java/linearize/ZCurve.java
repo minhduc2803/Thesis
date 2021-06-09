@@ -6,7 +6,7 @@ import utils.Print;
 public class ZCurve implements Curve {
   int N;
 
-  public int getZCurve(int x, int y) {
+  public int getZCurve(int y, int x) {
     int MASKS[] = {0x55555555, 0x33333333, 0x0F0F0F0F, 0x00FF00FF};
     int SHIFTS[] = {1, 2, 4, 8};
 

@@ -22,46 +22,48 @@ public class HilbertCurve implements Curve {
   private Coordinate getHilbert(int index) {
     int[][] positions = {{0, 0}, {1, 0}, {1, 1}, {0, 1}};
     int temp[] = positions[getLastTwoBits(index)];
-    index = index >>> 2;
+    int currentIndex = index >>> 2;
     int x = temp[0];
     int y = temp[1];
-
-    for (int n = 4; n <= this.N; n *= 2) {
-      int n2 = n / 2;
-
-      switch (getLastTwoBits((index))) {
+    int bits = (int) (Math.log(this.N) / Math.log(2.0)) + 1;
+    for (int n = 2; bits >= 0; n <<= 1, bits --) {
+      switch (getLastTwoBits((currentIndex))) {
         case 0:
           // flip around diagonal
           // because the coordinates is at (0,0) so not need to transform to the next generation
           int tmp = x;
           x = y;
           y = tmp;
+          if (currentIndex == 0) {
+            currentIndex = currentIndex >>> (bits /2) * 2;
+            bits = bits % 2;
+          }
           break;
 
         case 1:
           // add coordinates to the next generation -> to the top
-          x = x + n2;
+          x = x + n;
           break;
 
         case 2:
           // add coordinates to the next generation -> to the right
-          x = x + n2;
-          y = y + n2;
+          x = x + n;
+          y = y + n;
           break;
 
         case 3:
           // flip 1 -> 0 and 0 -> 1
-          x = n2 - 1 - x;
-          y = n2 - 1 - y;
+          x = n - 1 - x;
+          y = n - 1 - y;
           // flip around diagonal
           tmp = x;
           x = y;
           y = tmp;
           // add coordinates to the next generation -> to the right
-          y = y + n2;
+          y = y + n;
           break;
       }
-      index = index >>> 2;
+      currentIndex = currentIndex >>> 2;
     }
     return new Coordinate(x, y);
   }

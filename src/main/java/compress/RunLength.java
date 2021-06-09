@@ -1,6 +1,5 @@
-package algorithm;
+package compress;
 
-import com.oracle.tools.packager.Log;
 import utils.Logic;
 import utils.Print;
 

@@ -1,9 +1,9 @@
 package app;
 
-import algorithm.CompressSystem;
-import algorithm.Huffman;
-import algorithm.MoveToFrontList;
-import algorithm.RunLength;
+import compress.CompressSystem;
+import compress.Huffman;
+import compress.MoveToFrontList;
+import compress.RunLength;
 import linearize.Curve;
 import linearize.HilbertCurve;
 import utils.Logic;

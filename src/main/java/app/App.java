@@ -6,6 +6,7 @@ import compress.MoveToFrontList;
 import compress.RunLength;
 import linearize.Curve;
 import linearize.HilbertCurve;
+import linearize.SCPO;
 import utils.Logic;
 
 import javax.imageio.ImageIO;
@@ -153,7 +154,7 @@ public class App {
   }
 
   public static void main(String[] args) {
-    App app = new App(new HilbertCurve());
+    App app = new App(new SCPO());
     app.compress("./images/02.tif", "./images/02.hil");
     app.extract("./images/02.hil", "./images/02.ex");
 

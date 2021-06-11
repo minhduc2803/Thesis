@@ -5,14 +5,12 @@ import utils.Print;
 
 public class SCPO implements Curve {
 
-  NearestArray frontier;
-
-  SCPO() {
-    frontier = new NearestArray();
-  }
+  public SCPO() {}
 
   @Override
   public int[] encode(int[][] origin) {
+    NearestArray frontier = new NearestArray();
+
     int width = origin.length;
     int height = origin[0].length;
     int n = width * height;
@@ -53,6 +51,8 @@ public class SCPO implements Curve {
 
   @Override
   public int[][] decode(int[] encodeData) {
+    NearestArray frontier = new NearestArray();
+
     int n = encodeData.length;
     int width = (int) Math.sqrt(n);
     int height = width;
@@ -86,6 +86,7 @@ public class SCPO implements Curve {
           markedNode[x][y] = 1;
 
           result[x][y] = value;
+
         }
       }
     }

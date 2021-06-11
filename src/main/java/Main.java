@@ -1,6 +1,7 @@
 import app.App;
 import linearize.Curve;
 import linearize.HilbertCurve;
+import linearize.SCPO;
 import linearize.ZCurve;
 import utils.Logic;
 
@@ -60,11 +61,12 @@ public class Main {
 
   public static void main(String[] args) {
 //      testOneImage("15");
+    ArrayList<Double> SCPORatio = getAverageRatio(new SCPO());
     ArrayList<Double> hilbertRatio = getAverageRatio(new HilbertCurve());
     ArrayList<Double> zCurveRatio = getAverageRatio(new ZCurve());
 
-    for (int i = 0; i < hilbertRatio.size(); i++) {
-      System.out.println(hilbertRatio.get(i) / zCurveRatio.get(i));
+    for (int i = 0; i < SCPORatio.size(); i++) {
+      System.out.println(SCPORatio.get(i) + " - " + hilbertRatio.get(i) + " - " + zCurveRatio.get(i));
     }
 //    System.out.println(hilbertRatio);
 //    System.out.println(zCurveRatio);
